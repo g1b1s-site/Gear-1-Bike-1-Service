@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G1B1S - חנות כלי אופניים</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product {
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        #cart {
+            background: #ffeb3b;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        #contact-form {
+            margin-top: 20px;
+            text-align: left;
+            padding: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .contact-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>🔧 G1B1S - חנות לכלי אופניים 🔧</header>
+
+    <div class="container">
+        <h2>המוצרים שלנו</h2>
+        <div id="product-list"></div>
+
+        <div id="cart">
+            <h3>🛒 סל הקניות שלך:</h3>
+            <ul id="cart-items"></ul>
+            <button onclick="checkout()">🔵 בצע הזמנה</button>
+        </div>
+
+        <div id="contact-form">
+            <h3>📩 צור קשר</h3>
+            <label>שם מלא:</label>
+            <input type="text" id="name" placeholder="הכנס שם">
+            <label>אימייל:</label>
+            <input type="email" id="email" placeholder="הכנס אימייל">
+            <label>הודעה:</label>
+            <textarea id="message" placeholder="כתוב כאן את הודעתך"></textarea>
+            <button class="contact-btn" onclick="sendMessage()">שלח הודעה</button>
+        </div>
+    </div>
+
+    <script>
+        let products = [
+            { name: "משאבת אוויר מקצועית", price: 99 },
+            { name: "מפתח שרשרת אוניברסלי", price: 49 },
+            { name: "פנס לד לאופניים", price: 79 }
+        ];
+
+        let cart = [];
+
+        function displayProducts() {
+            let productList = document.getElementById("product-list");
+            productList.innerHTML = "";
+            products.forEach((product, index) => {
+                let productDiv = document.createElement("div");
+                productDiv.className = "product";
+                productDiv.innerHTML = `<h3>${product.name}</h3>
+                                        <p>מחיר: ${product.price} ₪</p>
+                                        <button onclick="addToCart(${index})">➕ הוסף לסל</button>`;
+                productList.appendChild(productDiv);
+            });
+        }
+
+        function addToCart(index) {
+            cart.push(products[index]);
+            updateCart();
+            alert(products[index].name + " נוסף לסל!");
+        }
+
+        function updateCart() {
+            let cartItems = document.getElementById("cart-items");
+            cartItems.innerHTML = "";
+            cart.forEach(item => {
+                let li = document.createElement("li");
+                li.textContent = item.name + " - " + item.price + " ₪";
+                cartItems.appendChild(li);
+            });
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("הסל שלך ריק! הוסף מוצרים תחילה.");
+            } else {
+                let total = cart.reduce((sum, item) => sum + item.price, 0);
+                alert("✅ הזמנה בוצעה בהצלחה! סה״כ לתשלום: " + total + " ₪");
+                cart = [];
+                updateCart();
+            }
+        }
+
+        function sendMessage() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let message = document.getElementById("message").value;
+            
+            if (name && email && message) {
+                alert("📩 תודה " + name + "! פנייתך נשלחה.");
+                document.getElementById("name").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("message").value = "";
+            } else {
+                alert("❌ יש למלא את כל השדות!");
+            }
+        }
+
+        displayProducts();
+    </script>
+
+</body>
+</html>
